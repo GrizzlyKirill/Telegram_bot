@@ -1,0 +1,20 @@
+url_main = f'https://api.telegram.org/bot714880610:AAEITv_voEs8d6GzpIAXL_yjxSpB4Fktq84/getUpdates'
+
+
+def search_chat_id():
+    r = rq.get(f'{url_main}/getUpdates').json()
+    chat_id = r['result'][0]['message']['chat']['id']
+    return chat_id
+
+
+def answer(chat_id, text, message_id=None):
+    message = {
+        'chat_id': chat_id,
+        'text': text,
+        'reply_to_message_id': message_id
+    }
+    rq.post(f'{url_main}/sendMessage', data=message)
+
+
+print(rq.get(f"{url_main}/getUpdates").json())
+answer(search_chat_id(), 'Hello')
